@@ -1,0 +1,6 @@
+info|sch|Schistosoma mansoni
+genoma|acctacgccgcgcatgcggcta|attcgatggcgcgtcg|0.5
+genoma|ggctgcgcggtaac|gctatggatagccgcacgc|0.25
+proteoma|yabyytbaytyy|12
+proteoma|ybbybbybby|10
+total|6

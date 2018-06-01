@@ -1,0 +1,22 @@
+<layout nome="sch" versao="1.0">
+	<registro id="info">
+		<campo ordem="1" nome="idreg" tipo="string" tamanho="10" />
+		<campo ordem="2" nome="sigla" tipo="string" tamanho="3" />
+		<campo ordem="3" nome="nomecientifico" tipo="string" tamanho="20" />
+	</registro>
+	<registro id="genoma">
+		<campo ordem="1" nome="idreg" tipo="string" tamanho="10" />
+		<campo ordem="2" nome="sequencia1" tipo="string" tamanho="50" dominio="[a|c|t|g]*"/>
+		<campo ordem="3" nome="sequencia2" tipo="string" tamanho="50" dominio="[a|c|t|g]*"/>
+		<campo ordem="4" nome="sov" tipo="numerico" dominio="0..1" />
+	</registro>
+	<registro id="proteoma">
+		<campo ordem="1" nome="idreg" tipo="string" tamanho="10" />
+		<campo ordem="2" nome="aminoacidos" tipo="string" tamanho="50" />
+		<campo ordem="3" nome="comprimento" tipo="numerico" dominio="0..50" />
+	</registro>
+	<registro id="total">
+		<campo ordem="1" nome="idreg" tipo="string" tamanho="10" />
+		<campo ordem="2" nome="linhas" tipo="numerico" />
+	</registro>
+</layout>
