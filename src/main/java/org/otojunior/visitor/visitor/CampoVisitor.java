@@ -1,6 +1,5 @@
 package org.otojunior.visitor.visitor;
 
-import java.util.List;
 import java.util.StringTokenizer;
 
 import org.jdom.Element;
@@ -34,69 +33,94 @@ public class CampoVisitor {
 		validarDominio(elementoCampo, itemCampo);
 	}
 
+	/**
+	 * 
+	 * @param elementoCampo
+	 * @param itemCampo
+	 */
 	private void validarDominio(Element elementoCampo, ItemCampo itemCampo) {
 		String tipoEsperado = elementoCampo.getAttributeValue("tipo");
 		String dominioEsperado = elementoCampo.getAttributeValue("dominio");
 		String valorAtual = itemCampo.getValorCampo();
 		
-		if ("string".equals(tipoEsperado)) {
-			if (!valorAtual.matches(dominioEsperado)) {
-				throw new RuntimeException("Erro de dominio. Linha: " +
-					itemCampo.getNumeroLinha() + " Ordem: " +
-					itemCampo.getOrdemCampo() + " Campo: " +
-					itemCampo.getValorCampo());
-			}
-		} else if ("numerico".equals(tipoEsperado)) {
-			StringTokenizer tk = new StringTokenizer(tipoEsperado, "..");
-			double rangeInf = Double.valueOf(tk.nextToken());
-			double rangeSup = Double.valueOf(tk.nextToken());
-			double doubleAtual = Double.valueOf(valorAtual);
-			if (rangeInf > doubleAtual || rangeSup < doubleAtual) {
-				throw new RuntimeException("Erro de dominio. Linha: " +
-					itemCampo.getNumeroLinha() + " Ordem: " +
-					itemCampo.getOrdemCampo() + " Campo: " +
-					itemCampo.getValorCampo());
-			}
-		} else if ("boolean".equals(tipoEsperado)) {
-			if (!"true".equals(valorAtual) || !"false".equals(valorAtual)) {
-				throw new RuntimeException("Erro de dominio. Linha: " +
-					itemCampo.getNumeroLinha() + " Ordem: " +
-					itemCampo.getOrdemCampo() + " Campo: " +
-					itemCampo.getValorCampo());
+		if (dominioEsperado != null) {
+			if ("string".equals(tipoEsperado)) {
+				if (!valorAtual.matches(dominioEsperado)) {
+					throw new RuntimeException("Erro de dominio. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+				}
+			} else if ("numerico".equals(tipoEsperado)) {
+				StringTokenizer tk = new StringTokenizer(dominioEsperado, "..");
+				double rangeInf = Double.valueOf(tk.nextToken());
+				double rangeSup = Double.valueOf(tk.nextToken());
+				double doubleAtual = Double.valueOf(valorAtual);
+				if (rangeInf > doubleAtual || rangeSup < doubleAtual) {
+					throw new RuntimeException("Erro de dominio. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+				}
+			} else if ("boolean".equals(tipoEsperado)) {
+				if (!"true".equals(valorAtual) || !"false".equals(valorAtual)) {
+					throw new RuntimeException("Erro de dominio. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+				}
 			}
 		}
 	}
 
+	/**
+	 * 
+	 * @param elementoCampo
+	 * @param itemCampo
+	 */
 	private void validarTamanho(Element elementoCampo, ItemCampo itemCampo) {
-		int tamanhoEsperado = Integer.valueOf(elementoCampo.getAttributeValue("tamanho"));
-		int tamanhoAtual = itemCampo.getValorCampo().length();
-		if (tamanhoEsperado != tamanhoAtual) {
-			throw new RuntimeException("Erro de tamanho. Linha: " +
-				itemCampo.getNumeroLinha() + " Ordem: " +
-				itemCampo.getOrdemCampo() + " Campo: " +
-				itemCampo.getValorCampo());
+		String tamanoEsperadoStr = elementoCampo.getAttributeValue("tamanho");
+		if (tamanoEsperadoStr != null) {
+			Integer tamanhoEsperado = Integer.valueOf(tamanoEsperadoStr);
+			int tamanhoAtual = itemCampo.getValorCampo().length();
+			if (tamanhoAtual > tamanhoEsperado) {
+				throw new RuntimeException("Erro de tamanho. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+			}
 		}
-		
 	}
 
+	/**
+	 * 
+	 * @param elementoCampo
+	 * @param itemCampo
+	 */
 	private void validarTipo(Element elementoCampo, ItemCampo itemCampo) {
 		String tipoEsperado = elementoCampo.getAttributeValue("tipo");
-		Class tipoEsperadoClass = null;
-		Class tipoAtual = itemCampo.getValorCampo().getClass();
 		
-		if ("string".equals(tipoEsperado)) {
-			tipoEsperadoClass = String.class;
-		} else if ("numerico".equals(tipoEsperado)) {
-			tipoEsperadoClass = Number.class;
-		} else if ("booleano".equals(tipoEsperado)) {
-			tipoEsperadoClass = Boolean.class;
-		}
-		
-		if (!tipoEsperadoClass.isAssignableFrom(tipoAtual)) {
-			throw new RuntimeException("Erro de tipo. Linha: " +
-				itemCampo.getNumeroLinha() + " Ordem: " +
-				itemCampo.getOrdemCampo() + " Campo: " +
-				itemCampo.getValorCampo());
+		if (tipoEsperado != null) {
+			if ("string".equals(tipoEsperado)) {
+				
+			} else if ("numerico".equals(tipoEsperado)) {
+				try {
+					Double.parseDouble(itemCampo.getValorCampo());
+				} catch (NumberFormatException e) {
+					throw new RuntimeException("Erro de tipo. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+				}
+			} else if ("booleano".equals(tipoEsperado)) {
+				String valor = itemCampo.getValorCampo();
+				if (!"true".equals(valor) || !"false".equals(valor)) {
+					throw new RuntimeException("Erro de tipo. Linha: " +
+						itemCampo.getNumeroLinha() + " Ordem: " +
+						itemCampo.getOrdemCampo() + " Campo: " +
+						itemCampo.getValorCampo());
+				}
+			}
 		}
 	}
 }

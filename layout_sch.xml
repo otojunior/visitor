@@ -16,7 +16,7 @@
 		<campo ordem="3" nome="comprimento" tipo="numerico" dominio="0..50" />
 	</registro>
 	<registro id="total">
-		<campo ordem="1" nome="idreg" tipo="string" tamanho="10" />
+		<campo ordem="1" nome="idreg" tipo="string" tamanho="5" />
 		<campo ordem="2" nome="linhas" tipo="numerico" />
 	</registro>
 </layout>

@@ -11,6 +11,10 @@ public class ItemLinha {
 		this.conteudoLinha = conteudoLinha;
 	}
 
+	/**
+	 * 
+	 * @param visitor
+	 */
 	public void accept(LinhaVisitor visitor) {
 		visitor.visit(this);
 	}
